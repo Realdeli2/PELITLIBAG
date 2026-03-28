@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pelitlibağ Futbol Takımı</title>
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background: linear-gradient(to right, #020617, #0f172a);
+  color:white;
+}
+header{
+  text-align:center;
+  padding:30px;
+  font-size:36px;
+  background:#111;
+}
+nav{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  background:#020617;
+}
+nav a{
+  padding:12px 20px;
+  color:white;
+  text-decoration:none;
+  cursor:pointer;
+}
+nav a.active, nav a:hover{
+  background:#38bdf8;
+}
+section{display:none; padding:30px;}
+section.active{display:block;}
+.players{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+}
+.card{
+  background:#1e293b;
+  border-radius:10px;
+  padding:15px;
+  text-align:center;
+  transition:0.3s;
+}
+.card:hover{
+  transform:scale(1.05);
+}
+.match{
+  background:#1e293b;
+  padding:20px;
+  margin:20px auto;
+  border-radius:10px;
+  max-width:600px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#1e293b;
+}
+th, td{
+  padding:10px;
+  text-align:center;
+}
+th{
+  background:#38bdf8;
+  color:black;
+}
+tr:hover{
+  background:#38bdf8;
+  color:black;
+}
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;
+}
+.gallery img,
+.gallery video{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  backdrop-filter:blur(8px);
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+.modal.show img,
+.modal.show video{
+  animation:zoom .3s;
+}
+@keyframes zoom{
+  from{transform:scale(0.7)}
+  to{transform:scale(1)}
+}
+.modal img,
+.modal video{
+  max-width:90%;
+  max-height:90%;
+}
+.close{
+  position:absolute;
+  top:20px;
+  right:30px;
+  font-size:30px;
+  cursor:pointer;
+}
+.soundBtn{
+  position:absolute;
+  bottom:20px;
+  right:20px;
+  padding:8px;
+  border:none;
+  background:#38bdf8;
+  cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<header>Pelitlibağ Futbol Takımı ⚽</header>
+
+<nav>
+<a onclick="show('anasayfa',this)" class="active">Ana Sayfa</a>
+<a onclick="show('kadro',this)">Kadro</a>
+<a onclick="show('teknik',this)">Teknik</a>
+<a onclick="show('mac',this)">Maçlar</a>
+<a onclick="show('istatistik',this)">İstatistik</a>
+<a onclick="show('kareler',this)">Kareler</a>
+</nav>
+
+<section id="anasayfa" class="active">
+<h2 align="center">PELİTLİBAĞ ⚽</h2>
+<p align="center" style="font-weight:bold;">HİÇBİRŞEY İÇİN DEĞİL , GALİBİYET İÇİN DEĞİL , AMA MÜCADELE İÇİN SÖZ VERDİK</p>
+</section>
+
+<section id="kadro">
+<h2>Kadro</h2>
+<div class="players">
+<div class="card">Ömür Faik Köse #10</div>
+<div class="card">Mustafa Kerem Çınar #4</div>
+<div class="card">Çağatay Sönmez #9</div>
+<div class="card">Ramazan Akın Aksoy #1</div>
+<div class="card">Kasım Emir Hikmetoğlu #14</div>
+<div class="card">Mustafa Kağan Vursal #13</div>
+<div class="card">Ali Taluy #11</div>
+<div class="card">Yiğit Burak Açıkgöz #8</div>
+<div class="card">Aysan Batu Vursal #15</div>
+<div class="card">Mehmet Arslan #3</div>
+<div class="card">Mehmetenes Dağdelen #18</div>
+<div class="card">Emir Hüseyin Wahdidi #20</div>
+<div class="card">Necati Talha Sönmez #17</div>
+<div class="card">Furkan Kıvrak #5</div>
+</div>
+</section>
+
+<section id="teknik">
+<h2>Teknik Ekip</h2>
+<div class="players">
+<div class="card">Çağdaş Yıldırım<br><small>Baş Antrenör</small></div>
+<div class="card">Mete Şahin Arslan<br><small>Kondisyoner</small></div>
+<div class="card">Engin Kılıç<br><small>Teknik Direktör</small></div>
+<div class="card">Yiğit Can Ülker<br><small>Yardımcı</small></div>
+</div>
+</section>
+
+<section id="mac">
+<h2>Maçlar</h2>
+<div class="match">
+İstiklal 2-5 Pelitlibağ<br>
+⚽⚽ Ömür,⚽ Çağatay,⚽⚽ Kerem<br>
+🎯 Akın<br>
+🟨 Görkem
+</div>
+<div class="match">
+Topraklık 5-2 Pelitlibağ<br>
+⚽⚽ Çağatay<br>
+🎯 Ömür<br>
+🟨 Çağatay
+</div>
+<div class="match">
+Alparslan 0-6 Pelitlibağ<br>
+⚽⚽ Çağatay,⚽ Görkem,⚽ Kerem,⚽ Ömür<br>
+🎯🎯 Ömür,🎯 Çağatay<br>
+🟨 Ömür
+</div>
+</section>
+
+<section id="istatistik">
+<h2>İstatistik</h2>
+<table>
+<tr><th>Oyuncu</th><th>Maç</th><th>Gol</th><th>Asist</th></tr>
+<tr><td>Ömür</td><td>3</td><td>3</td><td>3</td></tr>
+<tr><td>Çağatay</td><td>3</td><td>5</td><td>1</td></tr>
+<tr><td>Kerem</td><td>3</td><td>3</td><td>0</td></tr>
+<tr><td>Ramazan</td><td>3</td><td>0</td><td>1</td></tr>
+<tr><td>Kağan</td><td>3</td><td>0</td><td>0</td></tr>
+<tr><td>Ali</td><td>3</td><td>0</td><td>0</td></tr>
+<tr><td>Aysan</td><td>3</td><td>0</td><td>0</td></tr>
+<tr><td>Mehmet</td><td>3</td><td>0</td><td>0</td></tr>
+<tr><td>Mehmetenes</td><td>3</td><td>0</td><td>0</td></tr>
+<tr><td>Emir</td><td>3</td><td>0</td><td>0</td></tr>
+<tr><td>Furkan</td><td>3</td><td>0</td><td>0</td></tr>
+<tr><td>Necati</td><td>2</td><td>0</td><td>0</td></tr>
+<tr><td>Kasım</td><td>2</td><td>0</td><td>0</td></tr>
+<tr><td>Yiğit</td><td>2</td><td>0</td><td>0</td></tr>
+</table>
+</section>
+
+<section id="kareler">
+<h2>Takımdan Kareler</h2>
+<div class="gallery">
+<img src="foto1.jpg.png" onclick="openMedia(this)">
+<img src="foto2.jpg.jpeg" onclick="openMedia(this)">
+<video src="foto10.jpg.mp4" onclick="openMedia(this)"></video>
+<video src="foto12.jpg.mp4" onclick="openMedia(this)"></video>
+<img src="foto3.jpg.jpeg" onclick="openMedia(this)">
+<img src="foto4.jpg.jpeg" onclick="openMedia(this)">
+<video src="foto8.jpg.mp4" onclick="openMedia(this)"></video>
+<video src="foto18.jpg.mp4" onclick="openMedia(this)"></video>
+<img src="foto5.jpg.jpeg" onclick="openMedia(this)">
+<img src="foto6.jpg.jpeg" onclick="openMedia(this)">
+<video src="foto14.jpg.mp4" onclick="openMedia(this)"></video>
+<video src="foto16.jpg.mp4" onclick="openMedia(this)"></video>
+<img src="foto7.jpg.jpeg" onclick="openMedia(this)">
+<img src="foto9.jpg.jpeg" onclick="openMedia(this)">
+<video src="foto20.jpg.mp4" onclick="openMedia(this)"></video>
+<video src="foto21.jpg.mp4" onclick="openMedia(this)"></video>
+</div>
+</section>
+
+<!-- MODAL -->
+<div id="modal" class="modal" onclick="bgClose(event)">
+<span class="close" onclick="closeModal()">✖</span>
+<img id="modalImg">
+<video id="modalVideo" controls></video>
+<button class="soundBtn" onclick="toggleSound()">🔊</button>
+</div>
+
+<script>
+function show(id,el){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.querySelectorAll("nav a").forEach(a=>a.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+el.classList.add("active");
+}
+
+/* MODAL */
+let mediaList=[],currentIndex=0;
+window.onload=()=>{
+mediaList=[...document.querySelectorAll(".gallery img, .gallery video")];
+}
+
+function openMedia(el){
+const modal=document.getElementById("modal");
+const img=document.getElementById("modalImg");
+const video=document.getElementById("modalVideo");
+currentIndex=mediaList.indexOf(el);
+modal.style.display="flex";
+modal.classList.add("show");
+if(el.tagName==="IMG"){
+img.src=el.src;
+img.style.display="block";
+video.style.display="none";
+}else{
+video.src=el.src;
+video.style.display="block";
+img.style.display="none";
+video.play();
+video.muted=false;
+}
+}
+
+function closeModal(){
+const modal=document.getElementById("modal");
+modal.style.display="none";
+modal.classList.remove("show");
+const video=document.getElementById("modalVideo");
+video.pause();
+video.src="";
+}
+
+function bgClose(e){
+if(e.target.id==="modal") closeModal();
+}
+
+function toggleSound(){
+const video=document.getElementById("modalVideo");
+video.muted=!video.muted;
+}
+
+/* swipe */
+let startX=0;
+document.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+document.addEventListener("touchend",e=>{
+let endX=e.changedTouches[0].clientX;
+if(endX<startX-50) next();
+if(endX>startX+50) prev();
+});
+
+function next(){
+currentIndex=(currentIndex+1)%mediaList.length;
+openMedia(mediaList[currentIndex]);
+}
+function prev(){
+currentIndex=(currentIndex-1+mediaList.length)%mediaList.length;
+openMedia(mediaList[currentIndex]);
+}
+</script>
+
+</body>
+</html>
