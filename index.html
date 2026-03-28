@@ -11,7 +11,7 @@ body{
   background: linear-gradient(to right, #020617, #0f172a);
   color:white;
   overflow-x: hidden;
-  touch-action: pan-y; /* Kaydırma çakışmalarını önler */
+  touch-action: pan-y;
 }
 header{
   text-align:center;
@@ -85,6 +85,17 @@ section.active{display:block;}
   transition: 0.3s;
 }
 
+/* TABLO ALANI (KAYDIRMA KORUMALI) */
+.table-container { 
+  overflow-x: auto; 
+  border-radius: 12px; 
+  margin-top: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+table { width:100%; border-collapse:collapse; background:#1e293b; min-width: 450px; }
+th, td { padding:12px; text-align:center; border-bottom: 1px solid #334155; }
+th { background:#38bdf8; color:black; }
+
 /* GALERİ */
 .gallery {
   display:grid;
@@ -94,12 +105,6 @@ section.active{display:block;}
 .gallery img, .gallery video {
   width:100%; height:200px; object-fit:cover; border-radius:10px; cursor:pointer;
 }
-
-/* TABLO */
-.table-container { overflow-x: auto; border-radius: 12px; margin-top: 10px; }
-table { width:100%; border-collapse:collapse; background:#1e293b; min-width: 400px; }
-th, td { padding:12px; text-align:center; border-bottom: 1px solid #334155; }
-th { background:#38bdf8; color:black; }
 
 /* MODAL */
 .modal {
@@ -114,7 +119,6 @@ th { background:#38bdf8; color:black; }
 }
 .modal-close { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; }
 
-/* MOBİL AYARLAR */
 @media (max-width: 600px) {
   header { font-size: 22px; }
   nav a { padding: 12px 10px; font-size: 11px; }
@@ -171,14 +175,13 @@ th { background:#38bdf8; color:black; }
 </section>
 
 <section id="mac">
-  <p style="text-align:center; color:#94a3b8; font-size:14px;">(Detaylar için maça tıklayın)</p>
   <div class="match-item" onclick="openMatch('İstiklal 2-5 Pelitlibağ', '⚽ Ömür (2), Çağatay, Kerem (2)<br>🎯 Akın<br>🟨 Görkem')">İstiklal 2 - 5 Pelitlibağ</div>
   <div class="match-item" onclick="openMatch('Topraklık 5-2 Pelitlibağ', '⚽ Çağatay (2)<br>🎯 Ömür<br>🟨 Çağatay')">Topraklık 5 - 2 Pelitlibağ</div>
   <div class="match-item" onclick="openMatch('Alparslan 0-6 Pelitlibağ', '⚽ Çağatay (2), Görkem, Kerem, Ömür<br>🎯 Ömür (2), Çağatay<br>🟨 Ömür')">Alparslan 0 - 6 Pelitlibağ</div>
 </section>
 
 <section id="istatistik">
-  <div class="table-container">
+  <div class="table-container" id="statsTable">
     <table>
       <thead><tr><th>Oyuncu</th><th>Maç</th><th>Gol</th><th>Asist</th></tr></thead>
       <tbody>
@@ -210,6 +213,8 @@ th { background:#38bdf8; color:black; }
     <img src="foto3.jpg.jpeg" onclick="openMedia(this)">
     <video src="foto8.jpg.mp4" onclick="openMedia(this)"></video>
     <img src="foto5.jpg.jpeg" onclick="openMedia(this)">
+    <img src="foto7.jpg.jpeg" onclick="openMedia(this)">
+    <img src="foto9.jpg.jpeg" onclick="openMedia(this)">
   </div>
 </section>
 
@@ -255,7 +260,7 @@ function openMedia(el) {
 }
 function closeModal() { document.getElementById("mediaModal").style.display = "none"; }
 
-// GELİŞMİŞ SWIPE (KAYDIRMA)
+// GELİŞMİŞ SWIPE
 let startX = 0;
 let startY = 0;
 
@@ -265,20 +270,23 @@ document.addEventListener("touchstart", e => {
 }, {passive: true});
 
 document.addEventListener("touchend", e => {
+  // 1. Modallar açıkken swipe yapma
   if(document.querySelector(".modal[style*='flex']")) return;
+
+  // 2. Tablo üzerinde kaydırma yapılıyorsa swipe'ı iptal et
+  if (e.target.closest('#statsTable')) return;
 
   let endX = e.changedTouches[0].clientX;
   let endY = e.changedTouches[0].clientY;
-  
   let diffX = startX - endX;
   let diffY = startY - endY;
 
-  // Sadece yatay kaydırmayı algıla (dikey kaydırma ile çakışmasın)
-  if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-    if (diffX > 0) { // Sola kaydır -> Sonraki
+  // Yatay kaydırma dikeyden fazlaysa ve mesafe yeterliyse
+  if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 60) {
+    if (diffX > 0) {
       let next = (currentIdx + 1) % sections.length;
       show(sections[next], next);
-    } else { // Sağa kaydır -> Önceki
+    } else {
       let prev = (currentIdx - 1 + sections.length) % sections.length;
       show(sections[prev], prev);
     }
