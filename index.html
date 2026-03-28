@@ -22,18 +22,25 @@ nav{
   justify-content:center;
   flex-wrap:wrap;
   background:#020617;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 nav a{
   padding:12px 20px;
   color:white;
   text-decoration:none;
   cursor:pointer;
+  font-size: 14px;
 }
 nav a.active, nav a:hover{
   background:#38bdf8;
+  color: black;
 }
 section{display:none; padding:30px;}
 section.active{display:block;}
+
+/* MASAÜSTÜ OYUNCU KARTLARI */
 .players{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
@@ -45,9 +52,11 @@ section.active{display:block;}
   padding:15px;
   text-align:center;
   transition:0.3s;
+  border: 1px solid #334155;
 }
 .card:hover{
   transform:scale(1.05);
+  border-color: #38bdf8;
 }
 .match{
   background:#1e293b;
@@ -55,36 +64,54 @@ section.active{display:block;}
   margin:20px auto;
   border-radius:10px;
   max-width:600px;
+  line-height: 1.6;
 }
 table{
   width:100%;
   border-collapse:collapse;
   background:#1e293b;
+  font-size: 14px;
 }
 th, td{
   padding:10px;
   text-align:center;
+  border-bottom: 1px solid #334155;
 }
 th{
   background:#38bdf8;
   color:black;
 }
-tr:hover{
-  background:#38bdf8;
-  color:black;
-}
 .gallery{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
   gap:10px;
 }
 .gallery img,
 .gallery video{
   width:100%;
-  height:150px;
+  height:200px;
   object-fit:cover;
   border-radius:8px;
   cursor:pointer;
+}
+
+/* TELEFON ÖZEL AYARLARI (BURASI DÜZELTİR) */
+@media (max-width: 600px) {
+  header { font-size: 24px; padding: 20px; }
+  nav a { padding: 10px 12px; font-size: 12px; }
+  section { padding: 15px; }
+  
+  /* Mobilde kartları 2'li yan yana yap */
+  .players { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .card { padding: 10px; font-size: 13px; }
+  
+  /* Galeriyi mobilde 2'li yap */
+  .gallery { grid-template-columns: 1fr 1fr; }
+  .gallery img, .gallery video { height: 120px; }
+  
+  /* Tablo mobilde çok genişlemesin diye fontu küçült */
+  table { font-size: 11px; }
+  th, td { padding: 6px 4px; }
 }
 
 /* MODAL */
@@ -92,39 +119,24 @@ tr:hover{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.85);
+  background:rgba(0,0,0,0.95);
   backdrop-filter:blur(8px);
   justify-content:center;
   align-items:center;
   z-index:999;
 }
-.modal.show img,
-.modal.show video{
-  animation:zoom .3s;
-}
-@keyframes zoom{
-  from{transform:scale(0.7)}
-  to{transform:scale(1)}
-}
 .modal img,
 .modal video{
-  max-width:90%;
-  max-height:90%;
+  max-width:95%;
+  max-height:80%;
+  border-radius: 10px;
 }
 .close{
   position:absolute;
   top:20px;
-  right:30px;
-  font-size:30px;
-  cursor:pointer;
-}
-.soundBtn{
-  position:absolute;
-  bottom:20px;
-  right:20px;
-  padding:8px;
-  border:none;
-  background:#38bdf8;
+  right:25px;
+  font-size:35px;
+  color: white;
   cursor:pointer;
 }
 </style>
@@ -144,11 +156,11 @@ tr:hover{
 
 <section id="anasayfa" class="active">
 <h2 align="center">PELİTLİBAĞ ⚽</h2>
-<p align="center" style="font-weight:bold;">HİÇBİRŞEY İÇİN DEĞİL , GALİBİYET İÇİN DEĞİL , AMA MÜCADELE İÇİN SÖZ VERDİK</p>
+<p align="center" style="font-weight:bold; padding: 0 10px;">HİÇBİR ŞEY İÇİN DEĞİL, GALİBİYET İÇİN DEĞİL, AMA MÜCADELE İÇİN SÖZ VERDİK.</p>
 </section>
 
 <section id="kadro">
-<h2>Kadro</h2>
+<h2>Takım Kadrosu</h2>
 <div class="players">
 <div class="card">Ömür Faik Köse #10</div>
 <div class="card">Mustafa Kerem Çınar #4</div>
@@ -178,29 +190,27 @@ tr:hover{
 </section>
 
 <section id="mac">
-<h2>Maçlar</h2>
+<h2>Maç Sonuçları</h2>
 <div class="match">
-İstiklal 2-5 Pelitlibağ<br>
-⚽⚽ Ömür,⚽ Çağatay,⚽⚽ Kerem<br>
-🎯 Akın<br>
-🟨 Görkem
+<b>İstiklal 2-5 Pelitlibağ</b><br>
+⚽ Ömür (2), Çağatay, Kerem (2)<br>
+🎯 Akın | 🟨 Görkem
 </div>
 <div class="match">
-Topraklık 5-2 Pelitlibağ<br>
-⚽⚽ Çağatay<br>
-🎯 Ömür<br>
-🟨 Çağatay
+<b>Topraklık 5-2 Pelitlibağ</b><br>
+⚽ Çağatay (2)<br>
+🎯 Ömür | 🟨 Çağatay
 </div>
 <div class="match">
-Alparslan 0-6 Pelitlibağ<br>
-⚽⚽ Çağatay,⚽ Görkem,⚽ Kerem,⚽ Ömür<br>
-🎯🎯 Ömür,🎯 Çağatay<br>
-🟨 Ömür
+<b>Alparslan 0-6 Pelitlibağ</b><br>
+⚽ Çağatay (2), Görkem, Kerem, Ömür<br>
+🎯 Ömür (2), Çağatay | 🟨 Ömür
 </div>
 </section>
 
 <section id="istatistik">
-<h2>İstatistik</h2>
+<h2>Oyuncu İstatistikleri</h2>
+<div style="overflow-x: auto;">
 <table>
 <tr><th>Oyuncu</th><th>Maç</th><th>Gol</th><th>Asist</th></tr>
 <tr><td>Ömür</td><td>3</td><td>3</td><td>3</td></tr>
@@ -219,6 +229,7 @@ Alparslan 0-6 Pelitlibağ<br>
 <tr><td>Kasım</td><td>2</td><td>0</td><td>0</td></tr>
 <tr><td>Yiğit</td><td>2</td><td>0</td><td>0</td></tr>
 </table>
+</div>
 </section>
 
 <section id="kareler">
@@ -243,12 +254,10 @@ Alparslan 0-6 Pelitlibağ<br>
 </div>
 </section>
 
-<!-- MODAL -->
 <div id="modal" class="modal" onclick="bgClose(event)">
 <span class="close" onclick="closeModal()">✖</span>
 <img id="modalImg">
 <video id="modalVideo" controls></video>
-<button class="soundBtn" onclick="toggleSound()">🔊</button>
 </div>
 
 <script>
@@ -257,10 +266,10 @@ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.querySelectorAll("nav a").forEach(a=>a.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 el.classList.add("active");
+window.scrollTo(0,0);
 }
 
-/* MODAL */
-let mediaList=[],currentIndex=0;
+let mediaList=[];
 window.onload=()=>{
 mediaList=[...document.querySelectorAll(".gallery img, .gallery video")];
 }
@@ -269,9 +278,7 @@ function openMedia(el){
 const modal=document.getElementById("modal");
 const img=document.getElementById("modalImg");
 const video=document.getElementById("modalVideo");
-currentIndex=mediaList.indexOf(el);
 modal.style.display="flex";
-modal.classList.add("show");
 if(el.tagName==="IMG"){
 img.src=el.src;
 img.style.display="block";
@@ -281,14 +288,12 @@ video.src=el.src;
 video.style.display="block";
 img.style.display="none";
 video.play();
-video.muted=false;
 }
 }
 
 function closeModal(){
 const modal=document.getElementById("modal");
 modal.style.display="none";
-modal.classList.remove("show");
 const video=document.getElementById("modalVideo");
 video.pause();
 video.src="";
@@ -296,29 +301,6 @@ video.src="";
 
 function bgClose(e){
 if(e.target.id==="modal") closeModal();
-}
-
-function toggleSound(){
-const video=document.getElementById("modalVideo");
-video.muted=!video.muted;
-}
-
-/* swipe */
-let startX=0;
-document.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
-document.addEventListener("touchend",e=>{
-let endX=e.changedTouches[0].clientX;
-if(endX<startX-50) next();
-if(endX>startX+50) prev();
-});
-
-function next(){
-currentIndex=(currentIndex+1)%mediaList.length;
-openMedia(mediaList[currentIndex]);
-}
-function prev(){
-currentIndex=(currentIndex-1+mediaList.length)%mediaList.length;
-openMedia(mediaList[currentIndex]);
 }
 </script>
 
